@@ -1,8 +1,8 @@
 const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = !isProd;
@@ -13,9 +13,13 @@ const jsLoaders = () => {
       loader: 'babel-loader',
       options: {
         presets: ['@babel/preset-env'],
+
+        // For using static methods
+        plugins: ['@babel/plugin-proposal-class-properties'],
       },
     },
   ]
+
 
   if (isDev) {
     loaders.push('eslint-loader')
@@ -80,7 +84,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.m?js$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: jsLoaders(),
       },
