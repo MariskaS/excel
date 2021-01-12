@@ -9,9 +9,4 @@ const excel = new Excel('#app', {
   components: [Header, Toolbar, Formula, Table],
 });
 
-excel.render()
-
-setTimeout(function() {
-  excel.destroy()
-}, 3000);
-
+excel.render();

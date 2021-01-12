@@ -10,6 +10,15 @@ export class DomListener {
     this.$root = $root;
     this.listeners = options.listeners || [];
     this.name = options.name || '';
+
+    this._listeners = this.listeners.map((listener) => {
+      const method = getMethodName(listener);
+      if (!this[method]) {
+        throw new Error(`Method ${method} is not implemented
+         in ${this.name} Component`)
+      }
+      return {key: listener, handler: this[method].bind(this)};
+    })
   }
 
   initDOMListeners() {
@@ -19,20 +28,15 @@ export class DomListener {
         throw new Error(`Method ${method} is not implemented
          in ${this.name} Component`)
       }
-      this.$root.on(listener, this[method].bind(this));
+      this[method] = this[method].bind(this);
+      this.$root.on(listener, this[method]);
     })
   }
 
   removeDOMListeners() {
     this.listeners.forEach((listener) => {
       const method = getMethodName(listener);
-      if (!this[method]) {
-        throw new Error(`Method ${method} is not implemented
-         in ${this.name} Component`)
-      }
-      console.log('aaaa', this[method])
-
-      this.$root.off(listener, this[method].bind(this));
+      this.$root.off(listener, this[method]);
     })
   }
 }
