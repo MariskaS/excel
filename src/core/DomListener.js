@@ -10,15 +10,6 @@ export class DomListener {
     this.$root = $root;
     this.listeners = options.listeners || [];
     this.name = options.name || '';
-
-    this._listeners = this.listeners.map((listener) => {
-      const method = getMethodName(listener);
-      if (!this[method]) {
-        throw new Error(`Method ${method} is not implemented
-         in ${this.name} Component`)
-      }
-      return {key: listener, handler: this[method].bind(this)};
-    })
   }
 
   initDOMListeners() {

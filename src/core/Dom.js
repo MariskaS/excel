@@ -18,6 +18,11 @@ class Dom {
     return this;
   }
 
+  /**
+   *
+   * @param eventType {String} event name "click" || "input" || ...
+   * @param callback {Function}
+   */
   on(eventType, callback) {
     this.$el.addEventListener(eventType, callback);
   }
