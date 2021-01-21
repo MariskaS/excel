@@ -18,17 +18,20 @@ class Dom {
     return this;
   }
 
-  /**
-   *
-   * @param eventType {String} event name "click" || "input" || ...
-   * @param callback {Function}
-   */
   on(eventType, callback) {
     this.$el.addEventListener(eventType, callback);
   }
 
   off(eventType, callback) {
     this.$el.removeEventListener(eventType, callback);
+  }
+
+  closest(selector) {
+    return $(this.$el.closest(selector));
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect();
   }
 
   // node - it's a native element in js.
