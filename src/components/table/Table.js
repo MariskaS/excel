@@ -19,19 +19,19 @@ export class Table extends ExcelComponent {
       const $resizer = $(event.target);
       const $parent = $resizer.closest('[data-type], resizable');
       const parentCoords = $parent.getCoords();
-      const parentIndex = $parent.$el.getAttribute('data-index');
-      const elementsToResize = document.querySelectorAll(`[data-index="${parentIndex}"]`)
+      const currentColIndex = $parent.data.col;
+      const elementsToResize = this.$root.findAll(`[data-col="${currentColIndex}"]`)
       const [, ...elementsToResizeTail] = elementsToResize;
+      elementsToResize.forEach((col, index) => {
+        if (index !== 0) {
+          col.style.borderRightColor = '#3c74ff'
+        }
+      });
 
       document.onmousemove = (e) => {
         const delta = e.pageX - parentCoords.right;
         const calcWidth = `${parentCoords.width + delta}px`;
-        Array.from(elementsToResize).map((col, index) => {
-          col.style.width = calcWidth;
-          if (index !== 0) {
-            col.style.borderRightColor = '#3c74ff'
-          }
-        });
+        elementsToResize.forEach((col) => col.style.width = calcWidth);
       }
 
       document.onmouseup = () => {

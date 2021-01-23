@@ -34,6 +34,14 @@ class Dom {
     return this.$el.getBoundingClientRect();
   }
 
+  get data() {
+    return this.$el.dataset;
+  }
+
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector)
+  }
+
   // node - it's a native element in js.
   append(node) {
     if (node instanceof Dom) {
