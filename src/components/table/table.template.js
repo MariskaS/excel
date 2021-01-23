@@ -10,7 +10,7 @@ const createRow = (index, content) => {
     : '';
 
   return `
-    <div class="row">
+    <div class="row" data-type="resizable">
       <div class="row-info">
         ${num}
         ${resize}
@@ -20,17 +20,19 @@ const createRow = (index, content) => {
   `
 }
 
-const toColumn = (code) => {
+const toColumn = (code, index) => {
   return `
-    <div class="column" data-type="resizable">
+    <div class="column" data-type="resizable" data-index="${index}">
       ${code}
       <div class="column-resize" data-resize="column"></div>
     </div>
   `
 }
 
-const toCell = () => {
-  return `<div class="cell" contenteditable></div>`
+const toCell = (_, index) => {
+  return `
+    <div class="cell" contenteditable data-resize="cell" data-index="${index}"></div>
+    `
 }
 
 const toChar = (index) => String.fromCharCode(CODES.A + index);
@@ -41,7 +43,7 @@ export function createTable(rowsCount = 15) {
 
   const columns = new Array(codesCount)
     .fill('')
-    .map((_, index) => toColumn(toChar(index)))
+    .map((_, index) => toColumn(toChar(index), index))
     .join('');
 
   rows.push(createRow(null, columns));

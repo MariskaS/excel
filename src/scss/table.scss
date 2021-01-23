@@ -53,16 +53,6 @@
     border-top: 0;
     border-left: 0;
     height: 100%;
-
-    // Resize coll.
-    &-resize {
-      top: 0;
-      width: 4px;
-
-      &:hover {
-        cursor: col-resize;
-      }
-    }
   }
 
   .cell {
@@ -97,5 +87,14 @@
 
   &:hover {
     opacity: 1;
+  }
+}
+
+.column-resize {
+  top: 0;
+  width: 4px;
+
+  &:hover {
+    cursor: col-resize;
   }
 }
