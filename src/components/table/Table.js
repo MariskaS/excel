@@ -20,18 +20,28 @@ export class Table extends ExcelComponent {
       const $parent = $resizer.closest('[data-type], resizable');
       const parentCoords = $parent.getCoords();
       const currentColIndex = $parent.data.col;
-      const elementsToResize = this.$root.findAll(`[data-col="${currentColIndex}"]`)
-      const [, ...elementsToResizeTail] = elementsToResize;
-      elementsToResize.forEach((col, index) => {
+      const currentRowIndex = $parent.data.row;
+      const colToResize = this.$root.findAll(`[data-col="${currentColIndex}"]`)
+      const [, ...elementsToResizeTail] = colToResize;
+      colToResize.forEach((col, index) => {
         if (index !== 0) {
           col.style.borderRightColor = '#3c74ff'
         }
       });
 
       document.onmousemove = (e) => {
-        const delta = e.pageX - parentCoords.right;
-        const calcWidth = `${parentCoords.width + delta}px`;
-        elementsToResize.forEach((col) => col.style.width = calcWidth);
+
+        if (currentColIndex) {
+          const delta = e.pageX - parentCoords.right;
+          const calcWidth = `${parentCoords.width + delta}px`;
+          colToResize.forEach((col) => col.style.width = calcWidth);
+        }
+
+        if (currentRowIndex) {
+          const delta = e.pageY - parentCoords.bottom;
+          $parent.$el.style.height = `${parentCoords.height + delta}px`;
+        }
+
       }
 
       document.onmouseup = () => {

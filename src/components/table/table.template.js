@@ -10,7 +10,7 @@ const createRow = (index, content) => {
     : '';
 
   return `
-    <div class="row" data-type="resizable">
+    <div class="row" data-type="resizable" data-row="${index}">
       <div class="row-info">
         ${num}
         ${resize}
