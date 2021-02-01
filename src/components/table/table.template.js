@@ -10,7 +10,7 @@ const createRow = (index, content) => {
     : '';
 
   return `
-    <div class="row" data-type="resizable" data-row="${index}">
+    <div class="row" data-type="resizable">
       <div class="row-info">
         ${num}
         ${resize}
@@ -22,7 +22,7 @@ const createRow = (index, content) => {
 
 const toColumn = (code, index) => {
   return `
-    <div class="column" data-type="resizable" data-col="${index}">
+    <div class="column" data-type="resizable" data-column="${index}">
       ${code}
       <div class="column-resize" data-resize="column"></div>
     </div>
@@ -31,7 +31,7 @@ const toColumn = (code, index) => {
 
 const toCell = (_, index) => {
   return `
-    <div class="cell" contenteditable data-resize="cell" data-col="${index}"></div>
+    <div class="cell" contenteditable data-resize="cell" data-column="${index}"></div>
     `
 }
 

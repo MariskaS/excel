@@ -18,35 +18,44 @@ export class Table extends ExcelComponent {
     if (event.target.dataset.resize) {
       const $resizer = $(event.target);
       const $parent = $resizer.closest('[data-type], resizable');
-      const parentCoords = $parent.getCoords();
-      const currentColIndex = $parent.data.col;
-      const currentRowIndex = $parent.data.row;
-      const colToResize = this.$root.findAll(`[data-col="${currentColIndex}"]`)
-      const [, ...elementsToResizeTail] = colToResize;
-      colToResize.forEach((col, index) => {
-        if (index !== 0) {
-          col.style.borderRightColor = '#3c74ff'
-        }
-      });
+      const coords = $parent.getCoords();
+      const currentColIndex = $parent.data.column;
+      const type = $resizer.data.resize;
+      const colToResize = this.$root.findAll(`[data-column="${currentColIndex}"]`);
+      const sideProp = type === 'column' ? 'bottom' : 'right';
+      let calcSize;
+
+      $resizer.css({
+        opacity: 1,
+        [sideProp]: '-2000px',
+      })
 
       document.onmousemove = (e) => {
-
-        if (currentColIndex) {
-          const delta = e.pageX - parentCoords.right;
-          const calcWidth = `${parentCoords.width + delta}px`;
-          colToResize.forEach((col) => col.style.width = calcWidth);
+        if (type === 'column') {
+          const delta = e.pageX - coords.right;
+          calcSize = `${coords.width + delta}px`;
+          $resizer.css({right: -delta + 'px'})
+        } else {
+          const delta = e.pageY - coords.bottom;
+          calcSize = `${coords.height + delta}px`;
+          $resizer.css({bottom: -delta + 'px'})
         }
-
-        if (currentRowIndex) {
-          const delta = e.pageY - parentCoords.bottom;
-          $parent.$el.style.height = `${parentCoords.height + delta}px`;
-        }
-
       }
 
       document.onmouseup = () => {
         document.onmousemove = null;
-        Array.from(elementsToResizeTail).map((cell) => cell.style.borderRightColor = '#e2e3e3')
+        document.onmouseup = null;
+        if (type === 'column') {
+          colToResize.forEach((col) => $(col).css({width: calcSize}));
+        } else {
+          $parent.css({height: calcSize});
+        }
+
+        $resizer.css({
+          bottom: 0,
+          opacity: 0,
+          right: 0,
+        })
       };
     }
   }
