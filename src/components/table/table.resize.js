@@ -4,9 +4,7 @@ export function resizeHandler($root, event) {
   const $resizer = $(event.target);
   const $parent = $resizer.closest('[data-type], resizable');
   const coords = $parent.getCoords();
-  const currentColIndex = $parent.data.column;
   const type = $resizer.data.resize;
-  const colToResize = $root.findAll(`[data-column="${currentColIndex}"]`);
   const sideProp = type === 'column' ? 'bottom' : 'right';
   let calcSize;
 
@@ -31,7 +29,8 @@ export function resizeHandler($root, event) {
     document.onmousemove = null;
     document.onmouseup = null;
     if (type === 'column') {
-      colToResize.forEach((col) => $(col).css({width: calcSize}));
+      $root.findAll(`[data-column="${$parent.data.column}"]`)
+          .forEach((el) => el.style.width = calcSize)
     } else {
       $parent.css({height: calcSize});
     }
