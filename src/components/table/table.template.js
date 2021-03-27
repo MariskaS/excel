@@ -31,7 +31,7 @@ const toColumn = (code, index) => {
 
 const toCell = (_, index) => {
   return `
-    <div class="cell" contenteditable data-resize="cell" data-column="${index}"></div>
+    <div class="cell" contenteditable data-column="${index}"></div>
     `
 }
 
@@ -42,18 +42,18 @@ export function createTable(rowsCount = 15) {
   const rows = [];
 
   const columns = new Array(codesCount)
-    .fill('')
-    .map((_, index) => toColumn(toChar(index), index))
-    .join('');
+      .fill('')
+      .map((_, index) => toColumn(toChar(index), index))
+      .join('');
 
   rows.push(createRow(null, columns));
 
   let i = 0;
   for (; i < rowsCount; i++) {
     const cells = new Array(codesCount)
-      .fill('')
-      .map(toCell)
-      .join('');
+        .fill('')
+        .map(toCell)
+        .join('');
 
     rows.push(createRow(i + 1, cells));
   }
